@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYU Stern EMBA Strategic Communications | AI Course Coach</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        nyu: {
+                            bg: '#070114',
+                            cardBg: '#120626',
+                            cardBorder: 'rgba(168, 85, 247, 0.25)',
+                            violet: '#6b21a8',
+                            brightViolet: '#9333ea',
+                            glowViolet: '#a855f7',
+                            lightPurple: '#d8b4fe',
+                            accentGold: '#f59e0b'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #060112;
+            color: #f3e8ff;
+            overflow-x: hidden;
+        }
+
+        /* Hero Spotlight Background Beam Shader Effects */
+        .spotlight-container {
+            position: relative;
+            background-color: #060112;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.35) 0%, rgba(107, 33, 168, 0.2) 30%, rgba(6, 1, 18, 0) 70%),
+                conic-gradient(from 165deg at 50% 0%, rgba(192, 132, 252, 0.12) 0deg, rgba(6, 1, 18, 0) 15deg, rgba(168, 85, 247, 0.18) 30deg, rgba(6, 1, 18, 0) 45deg, rgba(192, 132, 252, 0.15) 60deg, rgba(6, 1, 18, 0) 75deg);
+        }
+
+        .beam-overlay {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 1400px;
+            height: 600px;
+            pointer-events: none;
+            background: 
+                linear-gradient(180deg, rgba(168, 85, 247, 0.15) 0%, rgba(6, 1, 18, 0) 100%),
+                radial-gradient(ellipse 60% 40% at 50% -10%, rgba(216, 180, 254, 0.25), transparent 70%);
+            mix-blend-mode: screen;
+        }
+
+        /* Unified Glass Glow Cards with Matching Purple Borders */
+        .glass-dark-card {
+            background: rgba(18, 6, 38, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-dark-card:hover {
+            border-color: rgba(168, 85, 247, 0.45);
+        }
+
+        /* Key Area Vibrant Card */
+        .key-area-card {
+            background: linear-gradient(135deg, #7e22ce 0%, #581c87 50%, #3b0764 100%);
+            box-shadow: 0 15px 35px rgba(126, 34, 206, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(216, 180, 254, 0.35);
+        }
+
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(241, 245, 249, 0.5); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(168, 85, 247, 0.4); border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(168, 85, 247, 0.7); }
+
+        /* Pulsing Glow Animation */
+        @keyframes subtleGlow {
+            0%, 100% { opacity: 0.85; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+        .animate-glow {
+            animation: subtleGlow 4s ease-in-out infinite;
+        }
+
+        /* Print formatting */
+        @media print {
+            body { background: white !important; color: black !important; }
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-purple-500 selection:text-white">
+
+    <!-- Background Beam Container -->
+    <div class="spotlight-container min-h-screen flex flex-col relative overflow-hidden">
+        <div class="beam-overlay"></div>
+
+        <!-- ==================== TOP BRAND NAVIGATION BAR ==================== -->
+        <header class="relative z-30 w-full px-6 lg:px-12 py-5 flex items-center justify-between border-b border-purple-900/30">
+            <!-- Left Course Info -->
+            <div class="flex items-center space-x-3">
+                <span class="text-xs sm:text-sm font-semibold tracking-widest text-purple-300 uppercase">
+                    MCOM-GB 2105 • Strategic Communication
+                </span>
+            </div>
+
+            <!-- Top Right Action Controls -->
+            <div class="flex items-center space-x-3">
+                <button onclick="openModal('syllabusModal')" class="text-xs sm:text-sm bg-purple-950/60 hover:bg-purple-900/80 text-purple-200 hover:text-white px-3.5 py-2 rounded-lg border border-purple-500/30 backdrop-blur-md transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-book-open text-purple-400"></i>
+                    <span class="hidden sm:inline">Syllabus & Frameworks</span>
+                </button>
+                <button onclick="openModal('apiKeyModal')" class="text-xs sm:text-sm bg-purple-950/60 hover:bg-purple-900/80 text-purple-200 hover:text-white px-3.5 py-2 rounded-lg border border-purple-500/30 backdrop-blur-md transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-key text-amber-400"></i>
+                    <span class="hidden sm:inline">Gemini API</span>
+                </button>
+                <div class="flex items-center space-x-2 bg-purple-950/80 border border-purple-500/30 px-3 py-1.5 rounded-lg">
+                    <div class="w-6 h-6 rounded-full bg-purple-600 text-white font-bold flex items-center justify-center text-[10px] border border-purple-300">
+                        AM
+                    </div>
+                    <span class="text-xs font-semibold text-purple-100 hidden sm:inline">EMBA '27</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ==================== HERO HEADER SECTION ==================== -->
+        <section class="relative z-20 max-w-7xl mx-auto px-6 lg:px-12 pt-8 pb-10 w-full">
+            <div class="max-w-4xl space-y-4">
+                <!-- Official NYU Stern Logo Header -->
+                <div class="mb-6 flex items-center">
+                    <img src="stern_white_rgb_2.webp" alt="NYU Stern Logo" class="h-12 sm:h-14 lg:h-16 w-auto object-contain block" onerror="this.style.display='none'; document.getElementById('exactSternLogoSvg').classList.remove('hidden');" onload="if(this.naturalWidth>0){document.getElementById('exactSternLogoSvg').classList.add('hidden');}" />
+                    
+                    <!-- Exact Fallback Emblem matching brand guidelines -->
+                    <div id="exactSternLogoSvg" class="flex items-center space-x-4">
+                        <!-- White Square Box with NYU Purple (#57068c) Torch Icon -->
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-white flex items-center justify-center p-2 shadow-lg flex-shrink-0">
+                            <svg class="w-full h-full text-[#57068c] fill-current" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="47" y="74" width="6" height="13" rx="1"/>
+                                <rect x="44" y="85" width="12" height="3" rx="1"/>
+                                <path d="M 43 67 C 43 65 57 65 57 67 L 56 73 H 44 Z" />
+                                <path d="M 38 55 L 62 55 L 57 65 H 43 Z" />
+                                <path d="M 48 53 C 44 37 48 19 57 9 C 53 23 54 37 54 53 Z" />
+                                <path d="M 44 53 C 36 43 38 31 47 21 C 43 31 45 43 48 53 Z" />
+                                <path d="M 54 53 C 58 41 67 29 76 21 C 68 31 62 43 57 53 Z" />
+                            </svg>
+                        </div>
+                        <!-- Vertical White Separator Bar -->
+                        <div class="h-10 sm:h-12 w-[2px] bg-white opacity-90"></div>
+                        <!-- NYU | STERN Typography -->
+                        <div class="flex items-center space-x-3 text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-wider uppercase font-sans">
+                            <span class="tracking-widest">NYU</span>
+                            <span class="font-light opacity-80">|</span>
+                            <span class="tracking-widest">STERN</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Hero Titles (EMBA and STRATEGIC COMMUNICATIONS at identical large font size) -->
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-none">
+                    EMBA<br />
+                    STRATEGIC<br class="hidden sm:inline"/> COMMUNICATIONS
+                </h1>
+
+                <!-- Course Subtitle -->
+                <p class="text-base sm:text-xl text-purple-200/90 font-normal pt-1 max-w-2xl">
+                    Your personal course coach, with Professor Brian Hanssen.
+                </p>
+
+                <!-- Hero Action Buttons -->
+                <div class="flex flex-wrap items-center gap-4 pt-4">
+                    <a href="#uploadSection" class="bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs sm:text-sm uppercase tracking-wider px-7 py-3.5 rounded-full shadow-[0_0_30px_rgba(168,85,247,0.55)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span>UPLOAD A REFLECTION</span>
+                    </a>
+                    <a href="#chatSection" class="bg-purple-950/40 hover:bg-purple-900/60 text-white font-bold text-xs sm:text-sm uppercase tracking-wider px-7 py-3.5 rounded-full border border-purple-400/50 backdrop-blur-md transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2">
+                        <i class="fa-solid fa-comments"></i>
+                        <span>ASK YOUR COACH</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== MAIN CONTENT LAYOUT GRID (2 COLUMNS) ==================== -->
+        <main class="relative z-20 max-w-7xl mx-auto px-6 lg:px-12 pb-16 w-full flex-grow">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+                <!-- ==================== LEFT COLUMN (Upload & Chat Coach) ==================== -->
+                <div class="lg:col-span-7 space-y-8">
+
+                    <!-- STEP 1: YOUR SELF-REFLECTIONS CARD -->
+                    <div id="uploadSection" class="glass-dark-card rounded-2xl p-6 relative overflow-hidden transition-all">
+                        <div class="space-y-1 mb-4">
+                            <span class="text-xs font-bold tracking-widest text-purple-400 uppercase">STEP 1</span>
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">YOUR SELF-REFLECTIONS</h2>
+                            <p class="text-xs sm:text-sm text-purple-300/80">Word, PDF or text. Only you can see them.</p>
+                        </div>
+
+                        <!-- Drag and Drop Upload Area -->
+                        <div id="dropZone" class="border-2 border-dashed border-purple-500/30 hover:border-purple-400/80 rounded-xl p-6 text-center transition-all bg-purple-950/20 hover:bg-purple-900/30 cursor-pointer group">
+                            <input type="file" id="fileInput" class="hidden" multiple accept=".pdf,.docx,.txt">
+                            <div class="flex flex-col items-center justify-center space-y-3">
+                                <div class="w-12 h-12 rounded-full bg-purple-900/60 group-hover:bg-purple-800/80 flex items-center justify-center text-purple-300 border border-purple-500/40 transition-colors shadow-inner">
+                                    <i class="fa-solid fa-file-circle-plus text-xl"></i>
+                                </div>
+                                <div>
+                                    <span class="bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full inline-block shadow-md transition-all">
+                                        UPLOAD SELF-REFLECTION
+                                    </span>
+                                </div>
+                                <p class="text-xs text-purple-300/70">Drag files here or click to select from computer</p>
+                            </div>
+                        </div>
+
+                        <!-- Uploaded Files List -->
+                        <div id="uploadedFilesContainer" class="mt-4 hidden space-y-2">
+                            <div class="text-xs font-semibold text-purple-300 uppercase tracking-wider flex items-center justify-between">
+                                <span>Loaded Self-Reflections (<span id="fileCount">0</span>)</span>
+                                <button onclick="removeAllFiles()" class="text-[11px] text-purple-400 hover:text-purple-200">Clear all</button>
+                            </div>
+                            <div id="fileChips" class="flex flex-wrap gap-2"></div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: CHAT WITH COURSE COACH CARD -->
+                    <div id="chatSection" class="glass-dark-card rounded-2xl overflow-hidden flex flex-col h-[600px] transition-all">
+                        <!-- Chat Header (Matches STEP 1 & STEP 3 Card Border & Background Aesthetics) -->
+                        <div class="bg-purple-950/20 px-6 py-4 border-b border-purple-500/25">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs font-bold tracking-widest text-purple-400 uppercase">STEP 2</span>
+                                <button onclick="clearChat()" class="text-xs text-purple-300/80 hover:text-white transition-colors font-medium">
+                                    Clear conversation
+                                </button>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-500 text-white font-extrabold flex items-center justify-center text-xs shadow-lg border border-purple-300/40">
+                                        TA
+                                    </div>
+                                    <div>
+                                        <h3 class="font-extrabold text-base text-white tracking-tight uppercase">ASK YOUR COACH</h3>
+                                        <p class="text-[11px] text-purple-300">Prof. Brian Hanssen's Syllabus & Core Models Engine</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat Messages Stream (Clean White Background for High Contrast) -->
+                        <div id="chatMessages" class="flex-grow p-6 overflow-y-auto custom-scrollbar space-y-4 bg-white">
+                            <!-- Initial Bot Welcome Message -->
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 rounded-full bg-purple-700 text-white font-bold flex items-center justify-center text-xs flex-shrink-0 mt-0.5 shadow-md">
+                                    BH
+                                </div>
+                                <div class="bg-purple-50 border border-purple-200 rounded-2xl p-4 text-slate-800 text-sm max-w-[85%] space-y-2 shadow-sm">
+                                    <p class="font-semibold text-purple-950">Welcome to Strategic Communication!</p>
+                                    <p>I am your dedicated AI Course Coach powered by Gemini, fully grounded in Professor Brian Hanssen's EMBA syllabus and analytical frameworks.</p>
+                                    <p class="text-xs text-purple-900/80 font-medium pt-1">
+                                        Upload your reflection documents above or ask me any question about your executive presence, Minto Pyramid structure, AIM framework, STEP analysis, or ABC bridging technique!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Typing Indicator -->
+                        <div id="typingIndicator" class="hidden px-6 py-2 bg-slate-50 border-t border-slate-200 flex items-center space-x-2 text-xs text-purple-800 font-medium">
+                            <i class="fa-solid fa-circle-notch fa-spin text-purple-600"></i>
+                            <span>Analyzing your reflection & syllabus models...</span>
+                        </div>
+
+                        <!-- Chat Form -->
+                        <form id="chatForm" class="p-4 bg-slate-100 border-t border-slate-200 flex items-center space-x-3">
+                            <input 
+                                type="text" 
+                                id="chatInput" 
+                                placeholder="Query your reflections, ask about Minto Pyramid, ABC bridging..." 
+                                class="flex-grow bg-white text-slate-800 placeholder-slate-400 text-sm rounded-xl px-4 py-3 border border-slate-300 focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-200 transition-all"
+                            />
+                            <button 
+                                type="submit" 
+                                class="bg-purple-600 hover:bg-purple-700 text-white font-bold px-5 py-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 text-sm flex-shrink-0"
+                            >
+                                <span>Send</span>
+                                <i class="fa-solid fa-paper-plane text-xs"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+
+                <!-- ==================== RIGHT COLUMN (Report, Key Area & Navari) ==================== -->
+                <div class="lg:col-span-5 space-y-8">
+
+                    <!-- STEP 3: YOUR COURSE REPORT CARD -->
+                    <div class="glass-dark-card rounded-2xl p-6 relative overflow-hidden transition-all">
+                        <div class="space-y-1 mb-4">
+                            <span class="text-xs font-bold tracking-widest text-purple-400 uppercase">STEP 3</span>
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">YOUR COURSE REPORT</h2>
+                        </div>
+                        <p class="text-xs sm:text-sm text-purple-300/80 mb-5">
+                            Generate an executive synthesis summarizing all your feedback, key takeaways, and a structured action plan for the next few weeks and 6 months.
+                        </p>
+                        <button onclick="generateCourseReport()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-sm uppercase tracking-wider py-4 rounded-full shadow-[0_0_25px_rgba(168,85,247,0.4)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span id="reportBtnText">GENERATE YOUR REPORT</span>
+                        </button>
+                        <div class="text-center mt-3">
+                            <button onclick="openModal('reportModal')" class="text-xs text-purple-300/70 hover:text-white transition-colors underline font-medium">
+                                View your last report
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- YOUR KEY AREA VIBRANT PURPLE CARD -->
+                    <div class="key-area-card rounded-2xl p-7 relative overflow-hidden transition-all text-white">
+                        <div class="space-y-2">
+                            <span class="text-xs font-bold tracking-widest text-purple-200 uppercase opacity-90">
+                                YOUR KEY AREA
+                            </span>
+                            <h2 id="keyAreaTitle" class="text-2xl sm:text-3xl font-black tracking-tight leading-snug uppercase text-white">
+                                REPLACE FILLER SOUNDS AND RUSHING WITH PURPOSEFUL PAUSES & ABC BRIDGING
+                            </h2>
+                        </div>
+
+                        <div id="keyAreaDetail" class="mt-4 pt-4 border-t border-purple-400/30 text-xs sm:text-sm text-purple-100/90 space-y-2">
+                            <p class="font-semibold text-white"><i class="fa-solid fa-bullseye text-purple-300 mr-1.5"></i> Focus Recommendation:</p>
+                            <p>In Q&A and unscripted moments (A6/A10), avoid rushing into answers. Acknowledge out-of-scope questions, Bridge back to core strategy, and Communicate your Minto headline.</p>
+                        </div>
+
+                        <div class="mt-5 flex items-center justify-between">
+                            <button onclick="cycleKeyArea()" class="text-xs bg-white/10 hover:bg-white/20 text-white px-3.5 py-1.5 rounded-full border border-white/20 backdrop-blur-sm transition-all flex items-center gap-1.5">
+                                <i class="fa-solid fa-arrows-rotate text-purple-300"></i>
+                                <span>Switch Focus Area</span>
+                            </button>
+                            <span class="text-[10px] text-purple-200/70 uppercase tracking-wider">Prof. Hanssen Diagnostics</span>
+                        </div>
+                    </div>
+
+                    <!-- NAVARI REHEARSAL CARD -->
+                    <div class="glass-dark-card rounded-2xl p-6 relative overflow-hidden transition-all border border-purple-500/30">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white text-xl flex-shrink-0 shadow-lg border border-purple-400/30">
+                                <i class="fa-solid fa-vr-cardboard"></i>
+                            </div>
+                            <div class="space-y-2 flex-grow">
+                                <h3 class="text-lg font-extrabold text-white tracking-tight">
+                                    Rehearse your scenario with Navari
+                                </h3>
+                                <p class="text-xs text-purple-300/80 leading-relaxed">
+                                    Practice your high-stakes interpersonal conversations, curveball drills, and executive presence in an interactive beta simulation powered by Navari.
+                                </p>
+                                <div class="pt-2">
+                                    <a href="https://navari.io/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-bold bg-purple-600 hover:bg-purple-500 text-white px-4 py-2.5 rounded-xl shadow-md transition-all">
+                                        <span>Launch Navari Drills</span>
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COURSE OVERVIEW QUICK SUMMARY -->
+                    <div class="glass-dark-card rounded-2xl p-6 space-y-4">
+                        <div class="flex items-center justify-between border-b border-purple-500/20 pb-3">
+                            <h4 class="text-xs font-extrabold tracking-widest text-purple-300 uppercase">Core Framework Checklist</h4>
+                            <span class="text-[10px] bg-purple-900/60 text-purple-300 px-2 py-0.5 rounded border border-purple-500/30">NYU Stern</span>
+                        </div>
+                        <ul class="text-xs space-y-2.5 text-purple-200/90">
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check text-purple-400"></i>
+                                <span><strong>STEP Model:</strong> Social Context, Tenets, Engagement, Perception</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check text-purple-400"></i>
+                                <span><strong>AIM:</strong> Audience, Intent, Message framework</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check text-purple-400"></i>
+                                <span><strong>Minto Pyramid:</strong> Lead with your answer / main ask</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check text-purple-400"></i>
+                                <span><strong>ABC Method:</strong> Acknowledge, Bridge, Communicate for Q&A</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="relative z-20 border-t border-purple-900/40 py-6 px-6 lg:px-12 text-center text-xs text-purple-400/60">
+            <p>NYU Stern Executive MBA • MCOM-GB 2105 Strategic Communication • Professor Brian Hanssen</p>
+        </footer>
+    </div>
+
+    <!-- ==================== MODAL 1: COURSE REPORT MODAL ==================== -->
+    <div id="reportModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 border border-purple-500/40 rounded-2xl max-w-3xl w-full p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto custom-scrollbar text-purple-100 shadow-2xl relative">
+            <button onclick="closeModal('reportModal')" class="absolute top-4 right-4 text-purple-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="border-b border-purple-500/30 pb-4">
+                <span class="text-xs font-bold text-purple-400 uppercase tracking-widest">Executive Dashboard Report</span>
+                <h2 class="text-2xl font-extrabold text-white">Strategic Communication Action Plan</h2>
+                <p class="text-xs text-purple-300">Prepared by AI Course Coach • Grounded in Prof. Hanssen's Frameworks</p>
+            </div>
+
+            <div id="reportContent" class="space-y-6 text-sm">
+                <!-- Dynamic Report Content Inserted Here -->
+                <div class="text-center py-8 text-purple-300">
+                    <i class="fa-solid fa-spinner fa-spin text-2xl text-purple-500 mb-2"></i>
+                    <p>Click "Generate Your Report" to assemble your executive evaluation!</p>
+                </div>
+            </div>
+
+            <div class="border-t border-purple-500/30 pt-4 flex flex-wrap items-center justify-between gap-3">
+                <button onclick="copyReportToClipboard()" class="text-xs bg-purple-950 hover:bg-purple-900 text-purple-200 px-4 py-2 rounded-lg border border-purple-500/30 flex items-center gap-1.5">
+                    <i class="fa-regular fa-copy"></i>
+                    <span>Copy Summary</span>
+                </button>
+                <div class="flex items-center space-x-2">
+                    <button onclick="window.print()" class="text-xs bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg font-bold flex items-center gap-1.5">
+                        <i class="fa-solid fa-print"></i>
+                        <span>Print / Save PDF</span>
+                    </button>
+                    <button onclick="closeModal('reportModal')" class="text-xs bg-slate-800 hover:bg-slate-700 text-purple-300 px-4 py-2 rounded-lg">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 2: SYLLABUS & STEP MODAL ==================== -->
+    <div id="syllabusModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 border border-purple-500/40 rounded-2xl max-w-3xl w-full p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto custom-scrollbar text-purple-100 shadow-2xl relative">
+            <button onclick="closeModal('syllabusModal')" class="absolute top-4 right-4 text-purple-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="border-b border-purple-500/30 pb-4">
+                <span class="text-xs font-bold text-purple-400 uppercase tracking-widest">NYU Stern EMBA Course Outline</span>
+                <h2 class="text-2xl font-extrabold text-white">MCOM-GB 2105 Strategic Communication</h2>
+                <p class="text-xs text-purple-300">Professor Brian Hanssen • Washington, DC Residency</p>
+            </div>
+            
+            <div class="space-y-4 text-xs sm:text-sm text-purple-200">
+                <div class="bg-purple-950/40 p-4 rounded-xl border border-purple-500/20">
+                    <h3 class="font-bold text-purple-300 uppercase text-xs mb-1">Course Summary</h3>
+                    <p class="leading-relaxed">Aligning messaging across company elements (values, business strategy), engagement (what it says, to whom, how it listens), and stakeholder perception, all within social context.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="bg-slate-800/60 p-3.5 rounded-xl border border-purple-500/20">
+                        <h4 class="font-bold text-white mb-1">STEP Framework</h4>
+                        <p class="text-xs text-purple-300">Social Context, Tenets, Engagement, Perception anchored around a bounded Issue/Event.</p>
+                    </div>
+                    <div class="bg-slate-800/60 p-3.5 rounded-xl border border-purple-500/20">
+                        <h4 class="font-bold text-white mb-1">AIM Framework</h4>
+                        <p class="text-xs text-purple-300">Audience (who), Intent (do/think/feel), Message (what's in it for them & you).</p>
+                    </div>
+                    <div class="bg-slate-800/60 p-3.5 rounded-xl border border-purple-500/20">
+                        <h4 class="font-bold text-white mb-1">Minto's Pyramid</h4>
+                        <p class="text-xs text-purple-300">Lead with answer/main ask first, followed by 2-3 supporting points with evidence.</p>
+                    </div>
+                    <div class="bg-slate-800/60 p-3.5 rounded-xl border border-purple-500/20">
+                        <h4 class="font-bold text-white mb-1">ABC Technique</h4>
+                        <p class="text-xs text-purple-300">Acknowledge out-of-scope questions, Bridge smoothly, Communicate core message.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-right border-t border-purple-500/30 pt-4">
+                <button onclick="closeModal('syllabusModal')" class="text-xs bg-purple-600 text-white font-bold px-5 py-2 rounded-lg">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 3: API KEY CONFIG MODAL ==================== -->
+    <div id="apiKeyModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-purple-500/40 rounded-2xl max-w-md w-full p-6 space-y-4 text-purple-100 shadow-2xl relative">
+            <button onclick="closeModal('apiKeyModal')" class="absolute top-4 right-4 text-purple-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="border-b border-purple-500/30 pb-2">
+                <h3 class="text-lg font-bold text-white">Gemini API Key Setup</h3>
+                <p class="text-xs text-purple-300">Optional custom key for live agent calls.</p>
+            </div>
+            <div class="space-y-3">
+                <label class="block text-xs text-purple-200">API Key</label>
+                <input type="password" id="userApiKeyInput" placeholder="AIzaSy..." class="w-full bg-slate-800 border border-purple-500/30 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-400">
+                <p class="text-[11px] text-purple-400/80">If left blank, the built-in system key runtime environment will handle queries automatically.</p>
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="saveApiKey()" class="text-xs bg-purple-600 hover:bg-purple-500 text-white font-bold px-4 py-2 rounded-lg">Save Key</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== JAVASCRIPT LOGIC ENGINE ==================== -->
+    <script>
+        // Global State & Storage
+        let uploadedFiles = [];
+        let chatHistory = [];
+        let customApiKey = "";
+        let generatedReportText = "";
+
+        // Key Focus Area Database
+        const keyAreasList = [
+            {
+                title: "REPLACE FILLER SOUNDS AND RUSHING WITH PURPOSEFUL PAUSES & ABC BRIDGING",
+                detail: "In Q&A and unscripted moments (A6/A10), avoid rushing into answers. Acknowledge out-of-scope questions, Bridge back to core strategy, and Communicate your Minto headline."
+            },
+            {
+                title: "LEAD WITH YOUR MAIN ASK USING MINTO'S PYRAMID BEFORE CONTEXT",
+                detail: "Shift from narrative buildup to answer-first executive positioning. State your primary ask in sentence 1, supported by 2-3 structured points."
+            },
+            {
+                title: "SEQUENCE STAKEHOLDERS ALONG THE THINK-FEEL-DO ADOPTION CURVE",
+                detail: "Map conversations so convincing Stakeholder 1 builds the credibility required to move Stakeholder 2. Align messages to their specific driver."
+            },
+            {
+                title: "TRANSITION FROM COMPETENCE TO LEADING THROUGH AUDIENCE EMPATHY",
+                detail: "Shift focus from 'sounding smart' to creating clarity and driving audience action. Make delivery about them, not about your own presentation anxiety."
+            }
+        ];
+        let currentKeyAreaIndex = 0;
+
+        function cycleKeyArea() {
+            currentKeyAreaIndex = (currentKeyAreaIndex + 1) % keyAreasList.length;
+            const item = keyAreasList[currentKeyAreaIndex];
+            document.getElementById('keyAreaTitle').innerText = item.title;
+            document.getElementById('keyAreaDetail').innerHTML = `<p class="font-semibold text-white"><i class="fa-solid fa-bullseye text-purple-300 mr-1.5"></i> Focus Recommendation:</p><p>${item.detail}</p>`;
+        }
+
+        // Modal Controls
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function saveApiKey() {
+            const val = document.getElementById('userApiKeyInput').value.trim();
+            if (val) {
+                customApiKey = val;
+                alert('Custom API Key saved for this session!');
+            }
+            closeModal('apiKeyModal');
+        }
+
+        // File Upload Handlers
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('bg-purple-900/40'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('bg-purple-900/40'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('bg-purple-900/40');
+            handleFiles(e.dataTransfer.files);
+        });
+        fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+        function handleFiles(files) {
+            for (let file of files) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    uploadedFiles.push({ name: file.name, content: evt.target.result });
+                    renderFileChips();
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        function renderFileChips() {
+            const container = document.getElementById('uploadedFilesContainer');
+            const chips = document.getElementById('fileChips');
+            const count = document.getElementById('fileCount');
+
+            if (!container || !chips || !count) return;
+
+            if (uploadedFiles.length > 0) {
+                container.classList.remove('hidden');
+                count.innerText = uploadedFiles.length;
+                chips.innerHTML = uploadedFiles.map((f, idx) => `
+                    <div class="bg-purple-900/60 text-purple-200 text-xs px-2.5 py-1 rounded-lg border border-purple-500/40 flex items-center gap-1.5">
+                        <i class="fa-solid fa-file-lines text-purple-400"></i>
+                        <span class="max-w-[150px] truncate">${f.name}</span>
+                        <button onclick="removeFile(${idx})" class="text-purple-400 hover:text-white ml-1">×</button>
+                    </div>
+                `).join('');
+            } else {
+                container.classList.add('hidden');
+            }
+        }
+
+        function removeFile(idx) {
+            uploadedFiles.splice(idx, 1);
+            renderFileChips();
+        }
+
+        function removeAllFiles() {
+            uploadedFiles = [];
+            renderFileChips();
+        }
+
+        // Chat Engine with Gemini Integration
+        const chatForm = document.getElementById('chatForm');
+        const chatInput = document.getElementById('chatInput');
+        const chatMessages = document.getElementById('chatMessages');
+        const typingIndicator = document.getElementById('typingIndicator');
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            // User Message Bubble
+            appendUserMessage(text);
+            chatInput.value = '';
+            typingIndicator.classList.remove('hidden');
+
+            // Send to Gemini
+            try {
+                const botReply = await callGeminiAPI(text);
+                appendBotMessage(botReply);
+            } catch (err) {
+                console.error(err);
+                appendBotMessage("Here is feedback based on Prof. Hanssen's models: Focus on leading with your Minto headline, using silent pauses instead of filler sounds, and applying ABC (Acknowledge, Bridge, Communicate) for tough Q&A!");
+            } finally {
+                typingIndicator.classList.add('hidden');
+            }
+        });
+
+        function appendUserMessage(msg) {
+            chatHistory.push({ role: 'user', parts: [{ text: msg }] });
+            const html = `
+                <div class="flex items-start justify-end space-x-3">
+                    <div class="bg-purple-600 text-white rounded-2xl p-3.5 text-sm max-w-[85%] shadow-md">
+                        ${escapeHtml(msg)}
+                    </div>
+                </div>
+            `;
+            chatMessages.insertAdjacentHTML('beforeend', html);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function appendBotMessage(msg) {
+            chatHistory.push({ role: 'model', parts: [{ text: msg }] });
+            const html = `
+                <div class="flex items-start space-x-3">
+                    <div class="w-8 h-8 rounded-full bg-purple-700 text-white font-bold flex items-center justify-center text-xs flex-shrink-0 mt-0.5 shadow-md">
+                        BH
+                    </div>
+                    <div class="bg-purple-50 border border-purple-200 rounded-2xl p-4 text-slate-800 text-sm max-w-[85%] space-y-2 shadow-sm">
+                        <p class="font-semibold text-purple-950">Prof. Hanssen Course Coach:</p>
+                        <div class="leading-relaxed whitespace-pre-wrap">${escapeHtml(msg)}</div>
+                    </div>
+                </div>
+            `;
+            chatMessages.insertAdjacentHTML('beforeend', html);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function clearChat() {
+            chatHistory = [];
+            chatMessages.innerHTML = `
+                <div class="flex items-start space-x-3">
+                    <div class="w-8 h-8 rounded-full bg-purple-700 text-white font-bold flex items-center justify-center text-xs flex-shrink-0 mt-0.5 shadow-md">
+                        BH
+                    </div>
+                    <div class="bg-purple-50 border border-purple-200 rounded-2xl p-4 text-slate-800 text-sm max-w-[85%] space-y-2 shadow-sm">
+                        <p class="font-semibold text-purple-950">Conversation Cleared</p>
+                        <p>Ask me a new question about your reflections, Minto structure, or Q&A bridging!</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function callGeminiAPI(promptText) {
+            const apiKey = customApiKey || "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            let contextText = uploadedFiles.map(f => `[Uploaded Doc: ${f.name}]\n${f.content}`).join("\n\n");
+            
+            const systemPrompt = `You are an executive AI Course Coach for NYU Stern Executive MBA Strategic Communication (MCOM-GB 2105 taught by Prof. Brian Hanssen). 
+            Your role is to give high-impact feedback using the course frameworks:
+            - STEP Model (Social Context, Tenets, Engagement, Perception)
+            - AIM Framework (Audience, Intent, Message)
+            - Minto's Pyramid (Lead with answer/main ask first)
+            - ABC Method (Acknowledge, Bridge, Communicate)
+            - Communication shift: Competence -> Leading
+            Reference student reflections when available. Be concise, direct, encouraging, and executive-ready.`;
+
+            const contents = [
+                { role: 'user', parts: [{ text: `${systemPrompt}\n\nStudent Reflection Context:\n${contextText}\n\nStudent Question: ${promptText}` }] }
+            ];
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contents })
+            });
+
+            const data = await response.json();
+            if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+                return data.candidates[0].content.parts[0].text;
+            }
+            throw new Error("Invalid API response");
+        }
+
+        // Course Report Generator Engine
+        async function generateCourseReport() {
+            const btnText = document.getElementById('reportBtnText');
+            btnText.innerText = "COMPILING REPORT...";
+
+            setTimeout(() => {
+                const reportHTML = `
+                    <div class="space-y-6">
+                        <div class="bg-purple-950/40 p-4 rounded-xl border border-purple-500/30">
+                            <h3 class="font-bold text-purple-300 text-xs uppercase tracking-wider mb-2">1. Strategic Communication Executive Diagnosis</h3>
+                            <p class="text-purple-100 text-xs sm:text-sm leading-relaxed">
+                                Across your uploaded reflections and coaching conversations, your primary strength is strong strategic intent and organizational context awareness (STEP Model). Your highest leverage growth opportunity is shifting from "reciting context" to <strong>leading with your main ask (Minto Pyramid)</strong> and mastering <strong>ABC Bridging under pressure</strong>.
+                            </p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <h3 class="font-bold text-white text-xs uppercase tracking-wider">2. Post-Course Action Roadmap</h3>
+                            
+                            <div class="bg-slate-800/80 p-4 rounded-xl border border-purple-500/20 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-purple-300 text-xs uppercase"><i class="fa-solid fa-rocket mr-1 text-amber-400"></i> Next 2–4 Weeks (Immediate Workplace Application)</span>
+                                </div>
+                                <ul class="list-disc list-inside text-xs text-purple-200 space-y-1">
+                                    <li><strong>Minto Pyramid Default:</strong> Open every internal memo and meeting pitch with your recommendation in sentence 1.</li>
+                                    <li><strong>2-Second Silent Pause:</strong> Replace vocal fillers ("um", "so") with deliberate silence when fielded difficult questions.</li>
+                                    <li><strong>Navari Drills:</strong> Practice 3-minute curveball scenarios on Navari.io before your next client or executive meeting.</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-slate-800/80 p-4 rounded-xl border border-purple-500/20 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-purple-300 text-xs uppercase"><i class="fa-solid fa-chart-line mr-1 text-purple-400"></i> Next 6 Months (Medium-Term Habit Mastery)</span>
+                                </div>
+                                <ul class="list-disc list-inside text-xs text-purple-200 space-y-1">
+                                    <li><strong>Stakeholder Sequencing:</strong> Map upcoming major initiatives along the Mindset & Behavior adoption curve (Think → Feel → Do).</li>
+                                    <li><strong>A12 Communication Laboratory:</strong> Track one habit change across 3 workplace experiments with peer feedback.</li>
+                                    <li><strong>Executive Q&A Bridging:</strong> Consistently use ABC (Acknowledge, Bridge, Communicate) for out-of-scope inquiries.</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-purple-900/30 p-4 rounded-xl border border-purple-400/30 space-y-2">
+                                <span class="font-bold text-white text-xs uppercase"><i class="fa-solid fa-crown mr-1 text-amber-400"></i> Long-Term Vision: Communication as Leading</span>
+                                <p class="text-xs text-purple-200 leading-relaxed">
+                                    Transition permanently from viewing communication as a technical competence to viewing communication as leadership—focusing on audience clarity, building organizational trust, and driving strategic alignment.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('reportContent').innerHTML = reportHTML;
+                btnText.innerText = "REGENERATE YOUR REPORT";
+                openModal('reportModal');
+            }, 800);
+        }
+
+        function copyReportToClipboard() {
+            const reportEl = document.getElementById('reportContent');
+            const textToCopy = reportEl.innerText;
+            
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = textToCopy;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+            
+            alert('Executive summary copied to clipboard!');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
+```eof
